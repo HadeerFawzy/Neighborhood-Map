@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import {GoogleApiWrapper} from 'google-maps-react';
-
 
 class Menu extends Component {
 
