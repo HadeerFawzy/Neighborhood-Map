@@ -1,3 +1,8 @@
+body {
+  background-color: #657483;
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
 }
@@ -23,6 +28,97 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*custom style*/
+/*side menu*/
+.menuWrapper {
+  float: left;
+  width: 250px;
+  position: relative;
+  margin-left: -250px;
+  -webkit-transition: margin-left ease 1s;
+  -moz-transition: margin-left ease 1s;
+  -o-transition: margin-left ease 1s;
+  transition: margin-left ease 1s;
+  color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.menuWrapper.visible {
+  margin-left: 0px;
+}
+
+.searchInput {
+  width: 100%;
+  margin: 20px 0px 10px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  height: 32px;
+  border: none;
+}
+
+.placesList {
+  margin: 0px;
+  padding: 0px;
+  list-style: decimal;
+  margin-left: 20px;
+}
+
+.placesList li {
+  margin: 8px 0px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  line-height: 18px;
+}
+
+/*map custom style to slide*/
+.mapWrapper {
+  position: absolute;
+  height: 100%;
+  left: 250px;
+  /* width: calc(100% -250px) !important;
+  width: -moz-calc(100% - 250px) !important;
+  width: -webkit-calc(100% - 250px) !important;*/
+  -webkit-transition: left ease 1s;
+  -moz-transition: left ease 1s;
+  -o-transition: left ease 1s;
+  transition: left ease 1s;
+}
+
+.mapWrapper.slide {
+  width: 100% !important;
+  left: 0px;
+}
+
+/*burger menu to toggle menu*/
+.menuToggleIcon {
+  background: #657483;
+  padding: 8px 10px 6px;
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  z-index: 999;
+  cursor: pointer;
+  -webkit-transition: left ease 1s;
+  -moz-transition: left ease 1s;
+  -o-transition: left ease 1s;
+  transition: left ease 1s;
+}
+
+.menuToggleIcon.menuVisible {
+  left: 250px;
+}
+
+.menuToggleIcon img {
+  width: 24px;
+  height: 24px;
 }

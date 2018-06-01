@@ -14,7 +14,9 @@ class App extends Component {
       {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
       {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
       {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
-    ]
+    ],
+    // variable to slide the map with the menu toggling
+    mapSlide: false
   }
 
   // calculateBounds(locations){
@@ -25,12 +27,21 @@ class App extends Component {
   //   return bounds;
   // }
 
+  mapSlide = () => {
+    this.setState({
+      mapSlide: !this.state.mapSlide
+    })
+  }
+
   render() {
     return (
       <div className="app">
+        <Menu locations={this.state.locations}
+              mapSlide = {this.mapSlide}/>
         <MapComponent
           google={this.props.google}
           locations={this.state.locations}
+          mapSlide = {this.state.mapSlide}
         />
       </div>
     )
