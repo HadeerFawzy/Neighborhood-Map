@@ -1,7 +1,7 @@
 # Neighborhood-Map
-
 ** reference-map: https://github.com/fullstackreact/google-maps-react
 ** used Foursquare ajax request to get places images https://developer.foursquare.com/
+
 ## How to start
  - git clone the repo
  - cd neighborhood-map
