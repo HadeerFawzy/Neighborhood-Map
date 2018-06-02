@@ -12,13 +12,15 @@ export class MapContainer extends Component {
     selectedPlace: {},
   };
 
-  onMarkerClick = (props, marker, e) =>
+  onMarkerClick = (props, marker, e) =>(
     //set the state with the new marker and it's data
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
-  });
+    }),
+    console.log(this.state.selectedPlace)
+  );
 
   onMapClicked = (props) => {
     // on click on the map, close all the info window, and clear the activeMarker object

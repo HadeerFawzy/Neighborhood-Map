@@ -10,7 +10,7 @@ import './App.css';
 class App extends Component {
   
   state = {
-    locations: [
+    initialLocations: [
       {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
       {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
       {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
@@ -20,7 +20,13 @@ class App extends Component {
     ],
     // variable to slide the map with the menu toggling
     mapSlide: false,
-    filteredLocations: []
+    //array use for filtering the initial array
+    locations: []
+  }
+
+  /*run right after the component is added to the DOM*/
+  componentDidMount (){
+    this.setState({locations: this.state.initialLocations })
   }
 
   updateLocations = (locations) => {
@@ -28,13 +34,17 @@ class App extends Component {
   }
 
   /*this function take the query from the input at the menu.js 
-    and filter the locations array according to that query*/
-  filterLocations = (query) => {
-    console.log(query)
-    const match = new RegExp(escapeRegExp(query), 'i')
+    and filter the locations array according to that query
+    reference help: https://codepen.io/pjmtokyo/pen/ZGVjVV*/
 
-    this.state.filteredLocations =  this.state.locations.filter((location) => match.test(location.title))
-    this.updateLocations(this.state.filteredLocations)
+  filterLocations = (query) => {
+    const newQuery = new RegExp(escapeRegExp(query), 'i')
+    var filteredLocations = this.state.initialLocations;
+    filteredLocations = filteredLocations.filter(function(location){
+      return location.title.toLowerCase().search(
+        newQuery) !== -1;
+    });
+    this.updateLocations(filteredLocations)
   }
 
   
@@ -54,7 +64,9 @@ class App extends Component {
   }
 
   render() {
-    this.state.locations.sort(sortBy('name'))
+    /*sort by property in that array of object*/
+    this.state.locations.sort(sortBy('title'))
+    
     return (
       <div className="app">
         <Menu locations={this.state.locations}
