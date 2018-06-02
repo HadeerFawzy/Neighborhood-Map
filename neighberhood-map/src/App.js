@@ -18,9 +18,11 @@ class App extends Component {
       {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
       {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
     ],
+
     // variable to slide the map with the menu toggling
     mapSlide: false,
-    //array use for filtering the initial array
+
+    //array use for filtering the initial array (swap)
     locations: []
   }
 
@@ -30,6 +32,7 @@ class App extends Component {
     this.searchVenuesIds(this.state.initialLocations)
   }
 
+  // update the locations
   updateLocations = (locations) => {
     this.setState({locations: locations })
   }
@@ -37,7 +40,6 @@ class App extends Component {
   /*this function take the query from the input at the menu.js 
     and filter the locations array according to that query
     reference help: https://codepen.io/pjmtokyo/pen/ZGVjVV*/
-
   filterLocations = (query) => {
     const newQuery = new RegExp(escapeRegExp(query), 'i')
     var filteredLocations = this.state.initialLocations;
@@ -48,7 +50,7 @@ class App extends Component {
     this.updateLocations(filteredLocations)
   }
 
-  // function to search for the venue_id for every location
+  // function to search for the venue_id for every location (ajax request using lat&lng of every location)
   searchVenuesIds = ((locations) => {
     locations.map((locationItem) => {
       var url = 'https://api.foursquare.com/v2/venues//search?ll=' + locationItem.location.lat + ',' + locationItem.location.lng + '&oauth_token=PHZPF20MASML1KWVF3RCSDQXJQ0PBX1JAH4TKHR0VWYT4Y5P&v=20180602'
@@ -77,14 +79,8 @@ class App extends Component {
     })
   })
 
-  // calculateBounds(locations){
-  //   var bounds = new this.props.google.maps.LatLngBounds();
-  //   for (var i = 0; i < this.state.locations.length; i++) {
-  //     bounds.extend(this.state.locations[i]);
-  //   }
-  //   return bounds;
-  // }
-
+  /* function used to toggle map sliding whenever side menu opened or closed
+     used to add and remove class from the map*/
   mapSlide = () => {
     this.setState({
       mapSlide: !this.state.mapSlide

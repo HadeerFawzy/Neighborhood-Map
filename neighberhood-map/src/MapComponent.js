@@ -14,16 +14,8 @@ export class MapContainer extends Component {
     clickedMarkerInfo: null,
   };
 
-  /*run right after the component is added to the DOM*/
-  componentDidMount (){
-    this.setState({
-        showingInfoWindow: false,
-        activeMarker: null,
-        clickedMarkerInfo: null
-    })
-  }
-
-
+  /*function to open infowindow of the clicked marker 
+    (built in function with the google-maps-react package)*/ 
   onMarkerClick = ((props, marker, e) =>{
     this.props.locations.map((location) => {
       props.name === location.title && this.callFoursquare(location.venue_id)
@@ -38,6 +30,8 @@ export class MapContainer extends Component {
     })
   });
 
+  /*function to close all infowindows whenever click on the map
+    (built in function with the google-maps-react package)*/ 
   onMapClicked = (props) => {
     // on click on the map, close all the info window, and clear the activeMarker object
     if (this.state.showingInfoWindow) {
@@ -49,6 +43,7 @@ export class MapContainer extends Component {
     }
   };
 
+  /*ajax request use the venue id of the location to get the info of the location*/
   callFoursquare = ((markerId) => {
     // console.log(markerId)
     var client_id="1MFBDET2ZLPYLJJZI00BDXQBVUUW02MN50LEKV4E1QMHVYDG"
