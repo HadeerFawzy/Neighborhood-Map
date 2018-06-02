@@ -12,15 +12,15 @@ export class MapContainer extends Component {
     selectedPlace: {},
   };
 
-  onMarkerClick = (props, marker, e) =>(
+  onMarkerClick = (props, marker, e) =>{
+    // const ajaxRespond = this.callFoursquare(marker)
     //set the state with the new marker and it's data
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
-    }),
-    console.log(this.state.selectedPlace)
-  );
+    })
+  };
 
   onMapClicked = (props) => {
     // on click on the map, close all the info window, and clear the activeMarker object
@@ -31,6 +31,36 @@ export class MapContainer extends Component {
       })
     }
   };
+
+  // callFoursquare = ((marker) => {
+  //   console.log(marker.venue_id)
+
+  //   var client_id="1MFBDET2ZLPYLJJZI00BDXQBVUUW02MN50LEKV4E1QMHVYDG"
+  //   var client_secret="P1AGYT3EOZ4QRRWH3PN5AR25FBMJ3HFNCTCJLMECNKZOHCBV"
+  //   var url = 'https://api.foursquare.com/v2/venues/'+ marker.venue_id +'?client_id=' + client_id +'&client_secret=' + client_secret + '&v=20170707'
+
+  //   fetch()
+  //     .then(res => res.json())
+  //     .then(
+  //       (result) => {
+  //         console.log(result)
+  //         this.setState({
+  //           isLoaded: true,
+  //           items: result.items
+  //         });
+  //       },
+  //       // Note: it's important to handle errors here
+  //       // instead of a catch() block so that we don't swallow
+  //       // exceptions from actual bugs in components.
+  //       (error) => {
+  //         console.log(error)
+  //         this.setState({
+  //           isLoaded: true,
+  //           error
+  //         });
+  //       }
+  //     )
+  // })
 
   render() {
     const { locations } = this.props
