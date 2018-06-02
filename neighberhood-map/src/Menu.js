@@ -33,7 +33,9 @@ class Menu extends Component {
                  placeholder="Search Places" 
                  className="searchInput"
                  value={this.state.query}
-                 onChange ={(event) => this.updateQuery(event.target.value)}
+                 onChange ={(event) => {
+                  this.updateQuery(event.target.value)
+                 }}
                 />
           <ul className="placesList">
             {locations.map((location, index) => (

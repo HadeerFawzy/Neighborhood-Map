@@ -98,6 +98,21 @@ body {
   left: 0px;
 }
 
+.infoWindowTitle {
+  margin: 5px 0px;
+}
+
+.infoWindowStyle p {
+  margin: 5px 0px;
+}
+
+.infoWindowStyle img {
+  width: 200px;
+  height: 200px;
+}
+
+
+
 /*burger menu to toggle menu*/
 .menuToggleIcon {
   background: #657483;
