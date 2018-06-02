@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+/*this package to escape the regex from the input filter*/
+import escapeRegExp from 'escape-string-regexp'
+/*this package to sort the contacts by name alphabitcally*/
+import sortBy from 'sort-by'
 import MapComponent from './MapComponent.js';
 import Menu from './Menu.js';
 import './App.css';
@@ -16,8 +19,25 @@ class App extends Component {
       {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
     ],
     // variable to slide the map with the menu toggling
-    mapSlide: false
+    mapSlide: false,
+    filteredLocations: []
   }
+
+  updateLocations = (locations) => {
+    this.setState({locations: locations })
+  }
+
+  /*this function take the query from the input at the menu.js 
+    and filter the locations array according to that query*/
+  filterLocations = (query) => {
+    console.log(query)
+    const match = new RegExp(escapeRegExp(query), 'i')
+
+    this.state.filteredLocations =  this.state.locations.filter((location) => match.test(location.title))
+    this.updateLocations(this.state.filteredLocations)
+  }
+
+  
 
   // calculateBounds(locations){
   //   var bounds = new this.props.google.maps.LatLngBounds();
@@ -34,10 +54,12 @@ class App extends Component {
   }
 
   render() {
+    this.state.locations.sort(sortBy('name'))
     return (
       <div className="app">
         <Menu locations={this.state.locations}
-              mapSlide = {this.mapSlide}/>
+              mapSlide = {this.mapSlide}
+              updateLocations={this.filterLocations}/>
         <MapComponent
           google={this.props.google}
           locations={this.state.locations}

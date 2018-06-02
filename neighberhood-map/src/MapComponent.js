@@ -18,7 +18,7 @@ export class MapContainer extends Component {
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
-    });
+  });
 
   onMapClicked = (props) => {
     // on click on the map, close all the info window, and clear the activeMarker object

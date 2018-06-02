@@ -11,6 +11,7 @@ class Menu extends Component {
   /*update the query var according to the input value*/
   updateQuery = (query) => {
     this.setState({query: query})
+    this.props.updateLocations(query)
   }
 
   /*track menu toggling and set state variable*/
@@ -24,6 +25,7 @@ class Menu extends Component {
     const { locations } = this.props
 
     return ( 
+      /* to test the query content >> {JSON.stringify(this.state)} */
       <div>
         <div className={(this.state.MenuVisibility ? "visible menuWrapper" : "menuWrapper")}> 
           <input type="text" 
@@ -41,7 +43,7 @@ class Menu extends Component {
         </div>
           
         <div onClick={this.toggleMenu} className={(this.state.MenuVisibility ? "menuVisible menuToggleIcon" : "menuToggleIcon")}>
-          <img src={MenuIcon} />
+          <img src={MenuIcon} alt="burger menu icon to toggle the menu"/>
         </div>
       </div>  
     );
