@@ -17,9 +17,9 @@ export class MapContainer extends Component {
   /*function to open infowindow of the clicked marker 
     (built in function with the google-maps-react package)*/ 
   onMarkerClick = ((props, marker, e) =>{
-    this.props.locations.map((location) => {
+    this.props.locations.map((location) => 
       props.name === location.title && this.callFoursquare(location.venue_id)
-    })
+    )
 
     // const ajaxRespond = this.callFoursquare(e)
     //set the state with the new marker and it's data

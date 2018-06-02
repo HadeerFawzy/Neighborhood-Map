@@ -15,11 +15,12 @@ class Menu extends Component {
   }
 
   /*track menu toggling and set state variable*/
-  toggleMenu = () => (
-    this.setState({MenuVisibility: !this.state.MenuVisibility}),
+  toggleMenu = () => {
+    this.setState({MenuVisibility: !this.state.MenuVisibility})
+
     /*inform the map that menu toggled so it slide back and forth*/
     this.props.mapSlide()
-  )
+  }
 
   render() {
     const { locations } = this.props
