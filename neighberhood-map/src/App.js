@@ -27,6 +27,14 @@ class App extends Component {
 
     //
     menuItemClickedId: '',
+
+    //clickItemMarker
+    clickedItemMarker: {},
+
+    // variable to toggle the infoWindow
+    isClicked: false,
+
+    showingInfoWindow: false
   }
 
   /*run right after the component is added to the DOM*/
@@ -92,6 +100,13 @@ class App extends Component {
 
   menuItemClicked= (locationid) => {
     this.setState({menuItemClickedId: locationid })
+    let marker = "this.refs.marker"+locationid;
+
+    this.setState({
+        isClicked:true,
+        marker: marker,
+        showingInfoWindow: true
+    })
   }
 
   render() {
@@ -106,6 +121,7 @@ class App extends Component {
               menuItemClicked={this.menuItemClicked}
               />
         <MapComponent
+          showingInfoWindow={this.state.showingInfoWindow}
           google={this.props.google}
           locations={this.state.locations}
           mapSlide = {this.state.mapSlide}
