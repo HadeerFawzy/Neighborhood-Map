@@ -12,6 +12,9 @@ export class MapContainer extends Component {
     selectedPlace: {},
     //clicked markerInfo
     clickedMarkerInfo: null,
+
+    //markers array
+    markersInfo: {}
   };
 
   /*function to open infowindow of the clicked marker 
@@ -20,7 +23,6 @@ export class MapContainer extends Component {
     this.props.locations.map((location) => 
       props.name === location.title && this.callFoursquare(location.venue_id)
     )
-
     // const ajaxRespond = this.callFoursquare(e)
     //set the state with the new marker and it's data
     this.setState({
@@ -77,9 +79,27 @@ export class MapContainer extends Component {
       )
   })
 
+  menuItemClicked = () => {
+    var menuItemClickedId =this.props.menuItemClickedId
+    // var onMarkerClick = this.onMarkerClick.bind(this)
+
+    this.props.locations.map((location) => {
+      // menuItemClickedId === location.venue_id && 
+        // this.setState({
+        //   selectedPlace: location,
+        //   activeMarker: marker,
+        //   showingInfoWindow: true
+        // })
+    })
+
+  }
+
+
+
   render() {
-    const { locations } = this.props
-    // {console.log(this.state.showingInfoWindow)}
+    const { locations, menuItemClickedId } = this.props
+    this.menuItemClicked()
+
     return (
       <Map google={this.props.google} 
            onClick={this.onMapClicked} 

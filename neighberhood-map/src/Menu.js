@@ -23,8 +23,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { locations } = this.props
-
+    const { locations, menuItemClicked } = this.props
     return ( 
       /* to test the query content >> {JSON.stringify(this.state)} */
       <div>
@@ -40,7 +39,11 @@ class Menu extends Component {
                 />
           <ul className="placesList">
             {locations.map((location, index) => (
-              <li key={index}> {location.title} </li>   
+              <li key={index}
+                  locationid= {location.venue_id}
+                  onClick={this.props.menuItemClicked.bind(null, location.venue_id)}> 
+                {location.title} 
+              </li>   
             ))}
           </ul>
         </div>

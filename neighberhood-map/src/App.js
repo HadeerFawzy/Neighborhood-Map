@@ -23,7 +23,10 @@ class App extends Component {
     mapSlide: false,
 
     //array use for filtering the initial array (swap)
-    locations: []
+    locations: [],
+
+    //
+    menuItemClickedId: '',
   }
 
   /*run right after the component is added to the DOM*/
@@ -87,6 +90,10 @@ class App extends Component {
     })
   }
 
+  menuItemClicked= (locationid) => {
+    this.setState({menuItemClickedId: locationid })
+  }
+
   render() {
     /*sort by property in that array of object*/
     this.state.locations.sort(sortBy('title'))
@@ -95,11 +102,14 @@ class App extends Component {
       <div className="app">
         <Menu locations={this.state.locations}
               mapSlide = {this.mapSlide}
-              updateLocations={this.filterLocations}/>
+              updateLocations={this.filterLocations}
+              menuItemClicked={this.menuItemClicked}
+              />
         <MapComponent
           google={this.props.google}
           locations={this.state.locations}
           mapSlide = {this.state.mapSlide}
+          menuItemClickedId={this.state.menuItemClickedId}
         />
       </div>
     )
