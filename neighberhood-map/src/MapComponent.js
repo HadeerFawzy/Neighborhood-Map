@@ -25,7 +25,6 @@ export class MapContainer extends Component {
     this.props.locations.map((location) => 
       props.name === location.title && this.callFoursquare(location.venue_id)
     )
-    // const ajaxRespond = this.callFoursquare(e)
     //set the state with the new marker and it's data
     this.setState({
       selectedPlace: props,

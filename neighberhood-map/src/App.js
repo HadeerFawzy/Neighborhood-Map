@@ -100,7 +100,7 @@ class App extends Component {
 
   menuItemClicked= (locationid) => {
     this.setState({menuItemClickedId: locationid })
-    let marker = "this.refs.marker"+locationid;
+    let marker = locationid;
 
     this.setState({
         isClicked:true,
@@ -121,6 +121,8 @@ class App extends Component {
               menuItemClicked={this.menuItemClicked}
               />
         <MapComponent
+          marker={this.state.marker}
+          isClicked={this.state.isClicked}
           showingInfoWindow={this.state.showingInfoWindow}
           google={this.props.google}
           locations={this.state.locations}
