@@ -107,6 +107,34 @@ export class MapContainer extends Component {
                   position={{lat: location.location.lat, lng: location.location.lng}}
                   onClick={this.onMarkerClick}/>
         ))}
+
+        {this.props.isClicked ?
+          <InfoWindow marker={eval(this.props.marker).marker}
+                      visible={this.props.showingInfoWindow}>
+                      {this.state.clickedMarkerInfo !== null &&
+                        <div className="infoWindowStyle">
+                          <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
+                          <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix}
+                               alt={this.state.clickedMarkerInfo.name}/>
+                        </div>
+                      }
+          </InfoWindow>
+          :
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}>
+              <div>
+                <h3 className="infoWindowTitle">{this.state.selectedPlace.name}</h3>
+                {this.state.clickedMarkerInfo !== null &&
+                  <div className="infoWindowStyle">
+                    <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
+                    <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix}
+                         alt={this.state.clickedMarkerInfo.name}/>
+                  </div>
+                }
+              </div>
+          </InfoWindow>
+        }
         
       </Map>
     );
