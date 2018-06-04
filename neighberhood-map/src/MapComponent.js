@@ -17,12 +17,12 @@ export class MapContainer extends Component {
     markersInfo: {}
   };
 
-  /*function to open infowindow of the clicked marker 
-    (built in function with the google-maps-react package)*/ 
+  /*function to open infowindow of the clicked marker
+    (built in function with the google-maps-react package)*/
   onMarkerClick = ((props, marker, e) =>{
-    console.log(props, marker, e)
+    // console.log(props, marker, e)
 
-    this.props.locations.map((location) => 
+    this.props.locations.map((location) =>
       props.name === location.title && this.callFoursquare(location.venue_id)
     )
     //set the state with the new marker and it's data
@@ -34,7 +34,7 @@ export class MapContainer extends Component {
   });
 
   /*function to close all infowindows whenever click on the map
-    (built in function with the google-maps-react package)*/ 
+    (built in function with the google-maps-react package)*/
   onMapClicked = (props) => {
     // on click on the map, close all the info window, and clear the activeMarker object
     if (this.state.showingInfoWindow) {
@@ -48,7 +48,7 @@ export class MapContainer extends Component {
 
   /*ajax request use the venue id of the location to get the info of the location*/
   callFoursquare = ((markerId) => {
-    // console.log(markerId)
+    console.log(markerId)
     var client_id="1MFBDET2ZLPYLJJZI00BDXQBVUUW02MN50LEKV4E1QMHVYDG"
     var client_secret="P1AGYT3EOZ4QRRWH3PN5AR25FBMJ3HFNCTCJLMECNKZOHCBV"
     var url = 'https://api.foursquare.com/v2/venues/'+ markerId +'?client_id=' + client_id +'&client_secret=' + client_secret + '&v=20180602'
@@ -57,7 +57,7 @@ export class MapContainer extends Component {
       .then(res => res.json())
       .then(
         (result) => {
-          // console.log(result.response.venue)
+          console.log(result)
           this.setState({
             clickedMarkerInfo: result.response.venue
           })
@@ -85,9 +85,8 @@ export class MapContainer extends Component {
     // var onMarkerClick = this.onMarkerClick.bind(this)
 
     this.props.locations.map((location) => {
-      menuItemClickedId === location.venue_id && console.log(location)
+      menuItemClickedId === location.venue_id && this.callFoursquare(location.venue_id)
     })
-
   }
 
 
@@ -97,44 +96,18 @@ export class MapContainer extends Component {
     this.menuItemClicked()
 
     return (
-      <Map google={this.props.google} 
-           onClick={this.onMapClicked} 
+      <Map google={this.props.google}
+           onClick={this.onMapClicked}
            initialCenter={{lat: 40.7281777, lng: -73.984377}} zoom={12}
            className={(this.props.mapSlide ? "slide mapWrapper" : "mapWrapper")}>
         {locations.map((location, index) => (
-          <Marker key={index} 
-                  ref={location.venue_id}
-                  name={location.title}  
+          <Marker key={index}
+                  ref={"marker"+location.venue_id}
+                  name={location.title}
                   position={{lat: location.location.lat, lng: location.location.lng}}
-                  onClick={this.onMarkerClick}/>  
+                  onClick={this.onMarkerClick}/>
         ))}
-        {this.props.isClicked ?
-          <InfoWindow marker={eval(this.props.marker).marker}
-                      visible={this.props.showingInfoWindow}>
-                      {this.state.clickedMarkerInfo !== null && 
-                        <div className="infoWindowStyle">
-                          <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
-                          <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix} 
-                               alt={this.state.clickedMarkerInfo.name}/>
-                        </div>
-                      }
-          </InfoWindow> 
-          :         
-          <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}>
-              <div>
-                <h3 className="infoWindowTitle">{this.state.selectedPlace.name}</h3>
-                {this.state.clickedMarkerInfo !== null && 
-                  <div className="infoWindowStyle">
-                    <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
-                    <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix} 
-                         alt={this.state.clickedMarkerInfo.name}/>
-                  </div>
-                }
-              </div>
-          </InfoWindow> 
-        } 
+        
       </Map>
     );
   }

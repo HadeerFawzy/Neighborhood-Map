@@ -6,9 +6,9 @@ import sortBy from 'sort-by'
 import MapComponent from './MapComponent.js';
 import Menu from './Menu.js';
 import './App.css';
-
+let item
 class App extends Component {
-  
+
   state = {
     initialLocations: [
       {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
@@ -34,7 +34,8 @@ class App extends Component {
     // variable to toggle the infoWindow
     isClicked: false,
 
-    showingInfoWindow: false
+    showingInfoWindow: false,
+    marker: ''
   }
 
   /*run right after the component is added to the DOM*/
@@ -48,7 +49,7 @@ class App extends Component {
     this.setState({locations: locations })
   }
 
-  /*this function take the query from the input at the menu.js 
+  /*this function take the query from the input at the menu.js
     and filter the locations array according to that query
     reference help: https://codepen.io/pjmtokyo/pen/ZGVjVV*/
   filterLocations = (query) => {
@@ -100,19 +101,30 @@ class App extends Component {
 
   menuItemClicked= (locationid) => {
     this.setState({menuItemClickedId: locationid })
-    let marker = locationid;
-
-    this.setState({
-        isClicked:true,
-        marker: marker,
-        showingInfoWindow: true
+    //console.log(locations);
+    const locations = this.state.initialLocations;
+    // console.log(locations);
+    var item = locationid
+    // console.log(item);
+    const selectedPlace = locations.filter((location) => {
+      return item === location.venue_id
     })
+    // console.log(selectedPlace[0].venue_id);
+    this.checkMarker(selectedPlace[0].venue_id)
+  }
+  checkMarker(id){
+    let marker = "this.refs.marker"+id;
+    this.setState({
+            isClicked:true,
+            marker: marker,
+            showingInfoWindow: true
+        })
   }
 
   render() {
     /*sort by property in that array of object*/
     this.state.locations.sort(sortBy('title'))
-    
+
     return (
       <div className="app">
         <Menu locations={this.state.locations}
