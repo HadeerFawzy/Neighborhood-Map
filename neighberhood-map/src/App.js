@@ -41,7 +41,7 @@ class App extends Component {
   /*run right after the component is added to the DOM*/
   componentDidMount (){
     this.setState({locations: this.state.initialLocations })
-    this.searchVenuesIds(this.state.initialLocations)
+    // this.searchVenuesIds(this.state.initialLocations)
   }
 
   // update the locations
@@ -62,34 +62,34 @@ class App extends Component {
     this.updateLocations(filteredLocations)
   }
 
-  // function to search for the venue_id for every location (ajax request using lat&lng of every location)
-  searchVenuesIds = ((locations) => {
-    locations.map((locationItem) => {
-      var url = 'https://api.foursquare.com/v2/venues//search?ll=' + locationItem.location.lat + ',' + locationItem.location.lng + '&oauth_token=PHZPF20MASML1KWVF3RCSDQXJQ0PBX1JAH4TKHR0VWYT4Y5P&v=20180602'
-      fetch(url)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            // console.log(result.response.venues[0].id)
-            if(result.response.venues[0].id) {
-              locationItem.venue_id=result.response.venues[0].id
-              // console.log(locationItem)
-            }
-            this.setState({
-              isLoaded: true,
-              items: result.items
-            });
-          },
-          (error) => {
-            console.log(error)
-            this.setState({
-              isLoaded: true,
-              error
-            });
-          }
-        )
-    })
-  })
+  // // function to search for the venue_id for every location (ajax request using lat&lng of every location)
+  // searchVenuesIds = ((locations) => {
+  //   locations.map((locationItem) => {
+  //     var url = 'https://api.foursquare.com/v2/venues//search?ll=' + locationItem.location.lat + ',' + locationItem.location.lng + '&oauth_token=PHZPF20MASML1KWVF3RCSDQXJQ0PBX1JAH4TKHR0VWYT4Y5P&v=20180602'
+  //     fetch(url)
+  //       .then(res => res.json())
+  //       .then(
+  //         (result) => {
+  //           // console.log(result.response.venues[0].id)
+  //           if(result.response.venues[0].id) {
+  //             locationItem.venue_id=result.response.venues[0].id
+  //             // console.log(locationItem)
+  //           }
+  //           this.setState({
+  //             isLoaded: true,
+  //             items: result.items
+  //           });
+  //         },
+  //         (error) => {
+  //           console.log(error)
+  //           this.setState({
+  //             isLoaded: true,
+  //             error
+  //           });
+  //         }
+  //       )
+  //   })
+  // })
 
   /* function used to toggle map sliding whenever side menu opened or closed
      used to add and remove class from the map*/

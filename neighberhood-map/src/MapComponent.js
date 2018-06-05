@@ -23,7 +23,7 @@ export class MapContainer extends Component {
     // console.log(props, marker, e)
 
     this.props.locations.map((location) =>
-      props.name === location.title && this.callFoursquare(location.venue_id)
+      props.name === location.title && this.searchVenuesIds(location)
     )
     //set the state with the new marker and it's data
     this.setState({
@@ -45,6 +45,32 @@ export class MapContainer extends Component {
       })
     }
   };
+
+  // function to search for the venue_id for every location (ajax request using lat&lng of every location)
+  searchVenuesIds = ((locationItem) => {
+    var url = 'https://api.foursquare.com/v2/venues//search?ll=' + locationItem.location.lat + ',' + locationItem.location.lng + '&oauth_token=PHZPF20MASML1KWVF3RCSDQXJQ0PBX1JAH4TKHR0VWYT4Y5P&v=20180602'
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          if(result.response.venues[0].id) {
+            // locationItem.venue_id=result.response.venues[0].id
+            this.callFoursquare(result.response.venues[0].id)
+          }
+          this.setState({
+            isLoaded: true,
+            items: result.items
+          });
+        },
+        (error) => {
+          console.log(error)
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  })
 
   /*ajax request use the venue id of the location to get the info of the location*/
   callFoursquare = ((markerId) => {
