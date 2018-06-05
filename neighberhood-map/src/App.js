@@ -34,6 +34,10 @@ class App extends Component {
     // variable to toggle the infoWindow
     isClicked: false,
 
+    showingInfoWindow: false,
+
+    marker: ''
+
   }
 
   /*run right after the component is added to the DOM*/
@@ -70,7 +74,17 @@ class App extends Component {
   menuItemClicked= (location) => {
     this.setState({menuItemClicked: location })
     this.setState({isClicked: 'true' })
-    console.log(this.state.menuItemClicked, this.state.isClicked)
+    this.checkMarker(location)
+  }
+
+  checkMarker(location){
+    let marker = "this.refs.marker" + location;
+    this.setState({
+      isClicked:true,
+      marker: marker,
+      showingInfoWindow: true
+    })
+    // this.searchVenuesIds(location)
   }
 
   render() {
@@ -88,8 +102,11 @@ class App extends Component {
           google={this.props.google}
           locations={this.state.locations}
           mapSlide = {this.state.mapSlide}
+
           menuItemClicked={this.state.menuItemClicked}
           isClicked={this.state.isClicked}
+          showingInfoWindow={this.state.showingInfoWindow}
+          marker={this.state.marker}
         />
       </div>
     )
