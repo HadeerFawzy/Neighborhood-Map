@@ -10,6 +10,7 @@ export class MapContainer extends Component {
     activeMarker: {},
     //object to hold the opened marker data
     selectedPlace: {},
+    
     //clicked markerInfo
     clickedMarkerInfo: null,
 
@@ -106,20 +107,31 @@ export class MapContainer extends Component {
       )
   })
 
-  menuItemClicked = () => {
-    var menuItemClickedId =this.props.menuItemClickedId
-    // var onMarkerClick = this.onMarkerClick.bind(this)
 
-    this.props.locations.map((location) => {
-      menuItemClickedId === location.venue_id && this.callFoursquare(location.venue_id)
-    })
+  menuItemClicked= () => {
+    const location = this.props.menuItemClicked
+    console.log(location)
+    this.setState({menuItemClicked: location })
+    this.checkMarker(location)
   }
 
+  checkMarker(location){
+    let marker = "this.refs.marker"+location;
+    this.setState({
+      isClicked:true,
+      marker: marker,
+      showingInfoWindow: true
+    })
+    // this.searchVenuesIds(location)
+  }
 
+  /*run right after the component is added to the DOM*/
+  componentDidMount (){
+    this.menuItemClicked()
+  }
 
   render() {
-    const { locations, menuItemClickedId } = this.props
-    this.menuItemClicked()
+    const { locations, menuItemClicked } = this.props
 
     return (
       <Map google={this.props.google}
@@ -134,7 +146,7 @@ export class MapContainer extends Component {
                   onClick={this.onMarkerClick}/>
         ))}
 
-        {this.props.isClicked ?
+        {this.props.isClicked &&
           <InfoWindow marker={eval(this.props.marker).marker}
                       visible={this.props.showingInfoWindow}>
                       {this.state.clickedMarkerInfo !== null &&
@@ -145,21 +157,7 @@ export class MapContainer extends Component {
                         </div>
                       }
           </InfoWindow>
-          :
-          <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}>
-              <div>
-                <h3 className="infoWindowTitle">{this.state.selectedPlace.name}</h3>
-                {this.state.clickedMarkerInfo !== null &&
-                  <div className="infoWindowStyle">
-                    <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
-                    <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix}
-                         alt={this.state.clickedMarkerInfo.name}/>
-                  </div>
-                }
-              </div>
-          </InfoWindow>
+          
         }
         
       </Map>
