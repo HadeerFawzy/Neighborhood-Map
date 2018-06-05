@@ -69,7 +69,8 @@ class App extends Component {
 
   menuItemClicked= (location) => {
     this.setState({menuItemClicked: location })
-    console.log(this.state.menuItemClicked)
+    this.setState({isClicked: 'true' })
+    console.log(this.state.menuItemClicked, this.state.isClicked)
   }
 
   render() {
@@ -88,6 +89,7 @@ class App extends Component {
           locations={this.state.locations}
           mapSlide = {this.state.mapSlide}
           menuItemClicked={this.state.menuItemClicked}
+          isClicked={this.state.isClicked}
         />
       </div>
     )
