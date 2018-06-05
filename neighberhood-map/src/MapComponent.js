@@ -49,8 +49,8 @@ export class MapContainer extends Component {
   /*ajax request use the venue id of the location to get the info of the location*/
   callFoursquare = ((markerId) => {
     console.log(markerId)
-    var client_id="1MFBDET2ZLPYLJJZI00BDXQBVUUW02MN50LEKV4E1QMHVYDG"
-    var client_secret="P1AGYT3EOZ4QRRWH3PN5AR25FBMJ3HFNCTCJLMECNKZOHCBV"
+    var client_id="0JRP3FB3TQPCU1045V12YGRI1TJL3EB2JIDQ3N5UUD4AUKS1"
+    var client_secret="IUXKO41FKVKBNY4EMBQCVYKYHFQO4WAES4ORQJSBWDOXKPAM"
     var url = 'https://api.foursquare.com/v2/venues/'+ markerId +'?client_id=' + client_id +'&client_secret=' + client_secret + '&v=20180602'
 
     fetch(url)
