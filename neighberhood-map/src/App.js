@@ -71,14 +71,15 @@ class App extends Component {
     })
   }
 
-  menuItemClicked= (location) => {
+  menuItemClicked= (location, index) => {
+    // console.log(location, index)
     this.setState({menuItemClicked: location })
     this.setState({isClicked: 'true' })
-    this.checkMarker(location)
+    this.checkMarker(location, index)
   }
 
-  checkMarker(location){
-    let marker = "this.refs.marker" + location;
+  checkMarker(location, index){
+    let marker = "this.refs.marker" + index;
     this.setState({
       isClicked:true,
       marker: marker,

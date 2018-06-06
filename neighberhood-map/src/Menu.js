@@ -40,7 +40,8 @@ class Menu extends Component {
           <ul className="placesList">
             {locations.map((location, index) => (
               <li key={index}
-                  onClick={this.props.menuItemClicked.bind(null, location)}> 
+                  id={index}
+                  onClick={this.props.menuItemClicked.bind(null, location, index)}> 
                 {location.title} 
               </li>   
             ))}
