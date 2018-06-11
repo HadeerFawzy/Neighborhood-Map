@@ -19,3 +19,6 @@
  - import escapeRegExp from 'escape-string-regexp'
  - import sortBy from 'sort-by'
  - import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react'
+
+## Service Worker 
+ - the project can load successfully at the off line network state

@@ -29,7 +29,7 @@ class Menu extends Component {
       <div>
         <div className={(this.state.MenuVisibility ? "visible menuWrapper" : "menuWrapper")}> 
           <input type="text" 
-                 name="search" 
+                 name="search location" 
                  placeholder="Search Places" 
                  className="searchInput"
                  value={this.state.query}
@@ -37,7 +37,7 @@ class Menu extends Component {
                   this.updateQuery(event.target.value)
                  }}
                 />
-          <ul className="placesList">
+          <ul className="placesList" aria-label="navigation" name="locations">
             {locations.map((location, index) => (
               <li key={index}
                   id={index}

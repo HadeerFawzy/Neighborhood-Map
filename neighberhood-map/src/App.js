@@ -6,7 +6,6 @@ import sortBy from 'sort-by'
 import MapComponent from './MapComponent.js';
 import Menu from './Menu.js';
 import './App.css';
-let item
 class App extends Component {
 
   state = {

@@ -39,6 +39,18 @@
 
     <!--TODO: Load the JS API ASYNCHRONOUSLY below.-->
     <!--<script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDUbTRPYZCp2Af2RSRwRfFsL6iK1iHyRG0&callback=initMap"> -->
-   </script>
+   <!-- </script> -->
+   <script>
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker
+               .register('/sw.js')
+               .then(function(response) { 
+                console.log("Service Worker Registered"); 
+               })
+               .catch((err) => {
+                console.log('Service Worker registration failed', err);
+               });
+    }
+  </script>
   </body>
 </html>
