@@ -23,7 +23,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { locations, menuItemClicked } = this.props
+    const { locations } = this.props
     return ( 
       /* to test the query content >> {JSON.stringify(this.state)} */
       <div>
@@ -50,7 +50,7 @@ class Menu extends Component {
           
         <div onClick={this.toggleMenu} className={(this.state.MenuVisibility ? "menuVisible menuToggleIcon" : "menuToggleIcon")}>
           <img src={MenuIcon} alt="burger menu icon to toggle the menu"/>
-        </div>
+        </div>       
       </div>  
     );
   }

@@ -15,13 +15,15 @@ export class MapContainer extends Component {
     //markers array
     markersInfo: {},
 
-    //marker coming from componentDidUpdate
-    clickedItemMarker: {}
+    isItemClicked: false
   };
 
   /*function to open infowindow of the clicked marker
     (built in function with the google-maps-react package)*/
   onMarkerClick = ((props, marker, e) =>{
+    this.setState({
+      isItemClicked: false
+    })
     // console.log(props, marker, e)
     console.log(props)
     this.props.locations.map((location) =>
@@ -39,6 +41,9 @@ export class MapContainer extends Component {
   /*function to close all infowindows whenever click on the map
     (built in function with the google-maps-react package)*/
   onMapClicked = (props) => {
+    this.setState({
+      isItemClicked: false
+    })
     // on click on the map, close all the info window, and clear the activeMarker object
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -52,7 +57,7 @@ export class MapContainer extends Component {
   // function to search for the venue_id for every location (ajax request using lat&lng of every location)
   // used Foursquare ajax request to get places ids https://developer.foursquare.com/
   searchVenuesIds = ((locationItem) => {
-    var url = 'https://api.foursquare.com/v2/venues//search?ll=' + locationItem.location.lat + ',' + locationItem.location.lng + '&oauth_token=PHZPF20MASML1KWVF3RCSDQXJQ0PBX1JAH4TKHR0VWYT4Y5P&v=20180602'
+    var url = 'https://api.foursquare.com/v2/venues//search?ll=' + locationItem.location.lat + ',' + locationItem.location.lng + '&oauth_token=PHZPF20MASML1KWVF3RCSDQXJQ0PBX1JAH4TKHR0VWYT4Y5P&v=20180611'
     fetch(url)
       .then(res => res.json())
       .then(
@@ -79,10 +84,10 @@ export class MapContainer extends Component {
   /*ajax request use the venue id of the location to get the info of the location*/
   // used Foursquare ajax request to get places info https://developer.foursquare.com/
   callFoursquare = ((markerId) => {
-    console.log(markerId)
-    var client_id="VKFETYJJE2JF0H41EWW1V12B4HRZ1QZ1MQSYLBBJXXD11QM2"
-    var client_secret="PCFFTVIJQUFKZGKV00T15TNLO5GMULEO44L2AKH5RDMQRKFA"
-    var url = 'https://api.foursquare.com/v2/venues/'+ markerId +'?client_id=' + client_id +'&client_secret=' + client_secret + '&v=20180602'
+    // console.log(markerId)
+    var client_id="ZDSIS3ETJCWO2PRAG44LQ2CJF1NGOZHYK1ADVXFT1SYPCK4T"
+    var client_secret="FCNJLLTWXIYHTIDK4ZFP3GRHEFW01IC25IZ51WQB02YTKWEC"
+    var url = 'https://api.foursquare.com/v2/venues/'+ markerId +'?client_id=' + client_id +'&client_secret=' + client_secret + '&v=20180611'
 
     fetch(url)
       .then(res => res.json())
@@ -91,9 +96,8 @@ export class MapContainer extends Component {
           // console.log(result)
           this.setState({
             clickedMarkerInfo: result.response.venue
-          })
-          
-          console.log(this.state.clickedMarkerInfo, this.state.activeMarker, this.state.showingInfoWindow)
+          })          
+          // console.log(this.state.clickedMarkerInfo, this.state.activeMarker, this.state.showingInfoWindow)
           this.setState({
             isLoaded: true,
             items: result.items
@@ -115,13 +119,13 @@ export class MapContainer extends Component {
   componentDidUpdate (prevProps, prevState, snapshot) {
     if(prevProps !== this.props){
       this.setState({
+        isItemClicked: true,
         activeMarker: prevState.marker,
-        showingInfoWindow: true
-      })      
-      this.setState({
+        showingInfoWindow: true,
         selectedPlace: this.props.menuItemClicked
-      })  
-      console.log(this.selectedPlace, this.props.menuItemClicked)
+      })    
+
+      console.log(this.props.menuItemClicked, this.state.selectedPlace)
       this.props.menuItemClicked ? this.searchVenuesIds(this.props.menuItemClicked) : ''
     }
   }
@@ -130,42 +134,42 @@ export class MapContainer extends Component {
     const { locations } = this.props
     
     return (
-      <Map role="application" aria-label="map to show all locations"
-           google={this.props.google}
-           onClick={this.onMapClicked}
-           initialCenter={{lat: 40.7281777, lng: -73.984377}} zoom={12}
-           className={(this.props.mapSlide ? "slide mapWrapper" : "mapWrapper")}>
-        {locations.map((location, index) => (
-          <Marker key={index}
-                  ref={"marker" + location.venue_id}
-                  name={location.title}
-                  position={{lat: location.location.lat, lng: location.location.lng}}
-                  onClick={this.onMarkerClick}/>
-        ))}
-        
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}>
-            <div>
-              <h3 className="infoWindowTitle">{this.state.selectedPlace.name}</h3>
-              {this.state.clickedMarkerInfo !== null &&
-                <div>
-                  <div className="infoWindowStyle">
-                    <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
-                    { this.state.clickedMarkerInfo.bestPhoto ?
-                      <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix}
-                         alt={this.state.clickedMarkerInfo.name}/>
-                      : 
-                      <b>Oooops No Image founded !!!</b>   
-                    }
-                  </div>
-                </div>  
-              }
-            </div>
-        </InfoWindow>
-        
-         
-      </Map>
+      <div>
+        <Map role="application" aria-label="map to show all locations"
+             google={this.props.google}
+             onClick={this.onMapClicked}
+             initialCenter={{lat: 40.7281777, lng: -73.984377}} zoom={12}
+             className={(this.props.mapSlide ? "slide mapWrapper" : "mapWrapper")}>
+          {locations.map((location, index) => (
+            <Marker key={index}
+                    ref={"marker" + location.venue_id}
+                    name={location.title}
+                    position={{lat: location.location.lat, lng: location.location.lng}}
+                    onClick={this.onMarkerClick}/>
+          ))}
+          
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}>
+              <div>
+                <h3 className="infoWindowTitle">{this.state.selectedPlace.name}</h3>
+                {this.state.clickedMarkerInfo !== null &&
+                  <div>
+                    <div className="infoWindowStyle">
+                      <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
+                      { this.state.clickedMarkerInfo.bestPhoto ?
+                        <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix}
+                           alt={this.state.clickedMarkerInfo.name}/>
+                        : 
+                        <b>Oooops No Image founded !!!</b>   
+                      }
+                    </div>
+                  </div>  
+                }
+              </div>
+          </InfoWindow>
+        </Map>
+      </div>  
     );
   }
 }
