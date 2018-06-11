@@ -25,9 +25,9 @@ export class MapContainer extends Component {
       isItemClicked: false
     })
     // console.log(props, marker, e)
-    console.log(props)
+    // console.log(props)
     this.props.locations.map((location) =>
-      props.name === location.title && this.searchVenuesIds(location)
+      props.name === location.title && this.callFoursquare(location.venue)
     )
     //set the state with the new marker and it's data
     this.setState({
@@ -54,39 +54,14 @@ export class MapContainer extends Component {
     }
   };
 
-  // function to search for the venue_id for every location (ajax request using lat&lng of every location)
-  // used Foursquare ajax request to get places ids https://developer.foursquare.com/
-  searchVenuesIds = ((locationItem) => {
-    var url = 'https://api.foursquare.com/v2/venues//search?ll=' + locationItem.location.lat + ',' + locationItem.location.lng + '&oauth_token=PHZPF20MASML1KWVF3RCSDQXJQ0PBX1JAH4TKHR0VWYT4Y5P&v=20180611'
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          if(result.response.venues[0].id) {
-            // locationItem.venue_id=result.response.venues[0].id
-            this.callFoursquare(result.response.venues[0].id)
-          }
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          });
-        },
-        (error) => {
-          console.log(error)
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  })
+
 
   /*ajax request use the venue id of the location to get the info of the location*/
   // used Foursquare ajax request to get places info https://developer.foursquare.com/
   callFoursquare = ((markerId) => {
     // console.log(markerId)
-    var client_id="ZDSIS3ETJCWO2PRAG44LQ2CJF1NGOZHYK1ADVXFT1SYPCK4T"
-    var client_secret="FCNJLLTWXIYHTIDK4ZFP3GRHEFW01IC25IZ51WQB02YTKWEC"
+    var client_id="D51YERLV21DITGGVMM1CMPNDIBJKM4LMT5OTHR0YCQXTDITM"
+    var client_secret="4HGOXHJK5R5NWSVA5ZQBAYCOB0XKIPFZZBM5D44FFIGRERWL"
     var url = 'https://api.foursquare.com/v2/venues/'+ markerId +'?client_id=' + client_id +'&client_secret=' + client_secret + '&v=20180611'
 
     fetch(url)
@@ -121,12 +96,11 @@ export class MapContainer extends Component {
       this.setState({
         isItemClicked: true,
         activeMarker: prevState.marker,
-        showingInfoWindow: true,
-        selectedPlace: this.props.menuItemClicked
+        showingInfoWindow: true
       })    
 
       console.log(this.props.menuItemClicked, this.state.selectedPlace)
-      this.props.menuItemClicked ? this.searchVenuesIds(this.props.menuItemClicked) : ''
+      this.props.menuItemClicked ? this.callFoursquare(this.props.menuItemClicked.venue) : ''
     }
   }
 
@@ -142,7 +116,7 @@ export class MapContainer extends Component {
              className={(this.props.mapSlide ? "slide mapWrapper" : "mapWrapper")}>
           {locations.map((location, index) => (
             <Marker key={index}
-                    ref={"marker" + location.venue_id}
+                    ref={"marker" + location.venue}
                     name={location.title}
                     position={{lat: location.location.lat, lng: location.location.lng}}
                     onClick={this.onMarkerClick}/>
