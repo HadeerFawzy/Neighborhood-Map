@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import MapMarker from './map_marker.png';
+import map_marker from './map_marker.png';
+import map_marker_clicked from './map_marker_clicked.png'
+
 
 export class MapContainer extends Component {
 
@@ -16,13 +18,15 @@ export class MapContainer extends Component {
     //markers array
     markersInfo: {},
 
-    isItemClicked: false
+    isItemClicked: false,
+
+    markerPin: map_marker,
+    clickedMarkerPin: map_marker_clicked
   };
 
   /*function to open infowindow of the clicked marker
     (built in function with the google-maps-react package)*/
   onMarkerClick = ((props, marker, e) =>{
-
     this.setState({
       isItemClicked: false
     })
@@ -39,6 +43,13 @@ export class MapContainer extends Component {
     // console.log(this.state.selectedPlace, this.state.activeMarker, this.state.showingInfoWindow, this.props.isClicked)
 
   });
+
+  windowHasOpened = ((e) => {
+    console.log(this.props.marker)
+    // marker.icon.url = map_marker_clicked
+    // console.log(marker.icon.url)
+
+  })
 
   /*function to close all infowindows whenever click on the map
     (built in function with the google-maps-react package)*/
@@ -135,10 +146,15 @@ export class MapContainer extends Component {
                     ref={"marker" + location.venue}
                     name={location.title}
                     position={{lat: location.location.lat, lng: location.location.lng}}
-                    onClick={this.onMarkerClick}/>
+                    onClick={this.onMarkerClick}
+                    icon={{
+                        url: this.state.markerPin
+                    }}/>
           ))}
           {this.state.isItemClicked ?
-            <InfoWindow marker={eval(this.props.marker).marker}
+            <InfoWindow 
+              onOpen={this.windowHasOpened}
+              marker={eval(this.props.marker).marker}
               visible={this.props.showingInfoWindow}>
               <div>
                 <h3 className="infoWindowTitle">{this.props.menuItemClicked.title}</h3>
@@ -157,6 +173,7 @@ export class MapContainer extends Component {
             </InfoWindow>
             :
             <InfoWindow
+              onOpen={this.windowHasOpened}
               marker={this.state.activeMarker}
               visible={this.state.showingInfoWindow}>
                 <div>
