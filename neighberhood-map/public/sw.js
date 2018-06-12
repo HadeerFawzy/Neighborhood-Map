@@ -3,6 +3,7 @@
 
 
 // Static cache name 
+var staticCacheList = ['location-static-v1'];
 var staticCacheName = 'location-static-v1';
 
 // Cache static assets on install 
@@ -32,14 +33,27 @@ self.addEventListener('install', e => {
 
 // get the assets if they cached, if not fetch from network and cache 
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.open('restaurant-dynamic').then(cache => {
-      return caches.match(event.request).then(response => {
-        return response || fetch(event.request).then(response => {
-          cache.put(event.request, response.clone());
-          return response;
-        });
-      });
-    })
-  );
+
+  // event.respondWith(
+  //   caches.open('dynamic').then(cache => {
+  //     return caches.match(event.request).then(response => {
+  //       return response || fetch(event.request).then(response => {
+  //         cache.put(event.request, response.clone());
+  //         return response;
+  //       });
+  //     });
+  //   })
+  // );
+
+  //  caches.keys().then(function(cacheNames) {
+  //   return Promise.all(
+  //     cacheNames.map(function(cacheName) {
+  //       if (staticCacheList.indexOf(cacheName) === -1) {
+  //         return caches.delete(cacheName);
+  //       }
+  //     })
+  //   );
+  // })
+
+
 });

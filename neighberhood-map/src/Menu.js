@@ -26,7 +26,7 @@ class Menu extends Component {
     const { locations } = this.props
     return ( 
       /* to test the query content >> {JSON.stringify(this.state)} */
-      <div>
+      <div role="menu">
         <div className={(this.state.MenuVisibility ? "visible menuWrapper" : "menuWrapper")}> 
           <input type="text" 
                  name="search location" 
@@ -37,10 +37,12 @@ class Menu extends Component {
                   this.updateQuery(event.target.value)
                  }}
                 />
-          <ul className="placesList" aria-label="navigation" name="locations">
+          <ul className="placesList" aria-label="navigation" name="locations" role="menu">
             {locations.map((location, index) => (
               <li key={index}
                   id={index}
+                  tabIndex={index}
+                  role="menuitem"
                   onClick={this.props.menuItemClicked.bind(null, location, index)}> 
                 {location.title} 
               </li>   

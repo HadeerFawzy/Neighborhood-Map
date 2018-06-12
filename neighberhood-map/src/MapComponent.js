@@ -104,7 +104,15 @@ export class MapContainer extends Component {
       )
   })
 
+  // will be called automatically in case of an authentication error.
+  gm_authFailure(){
+    window.alert("error");
+  }
+
   componentDidUpdate (prevProps, prevState, snapshot) {
+    // will be called automatically in case of an authentication error.
+    window.gm_authFailure = this.gm_authFailure
+    
     if(prevProps !== this.props){
       // console.log(this.props.menuItemClicked)
       // console.log(this.props.locations)
@@ -135,7 +143,7 @@ export class MapContainer extends Component {
     const { locations } = this.props
     
     return (
-      <div>
+      <div role="application">
         <Map role="application" aria-label="map to show all locations"
              google={this.props.google}
              onClick={this.onMapClicked}
