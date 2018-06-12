@@ -21,7 +21,9 @@ export class MapContainer extends Component {
     isItemClicked: false,
 
     markerPin: map_marker,
-    clickedMarkerPin: map_marker_clicked
+    clickedMarkerPin: map_marker_clicked,
+
+    requestState: true,
   };
 
   /*function to open infowindow of the clicked marker
@@ -103,7 +105,7 @@ export class MapContainer extends Component {
         }
       )
       // catch errors
-      .catch(error => console.log(error) );
+      .catch(error => (console.log(error),  this.setState({requestState: false}) ));
   })
 
   // will be called automatically in case of an authentication error.
@@ -161,33 +163,15 @@ export class MapContainer extends Component {
                         url: this.state.markerPin
                     }}/>
           ))}
-          {this.state.isItemClicked ?
-            <InfoWindow 
-              onOpen={this.windowHasOpened}
-              marker={eval(this.props.marker).marker}
-              visible={this.props.showingInfoWindow}>
-              <div>
-                <h3 className="infoWindowTitle">{this.props.menuItemClicked.title}</h3>
-                {this.state.clickedMarkerInfo !== null &&
-                  <div className="infoWindowStyle">
-                    <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
-                    { this.state.clickedMarkerInfo.bestPhoto ?
-                      <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix}
-                         alt={this.state.clickedMarkerInfo.name}/>
-                      : 
-                      <b>Oooops No Image founded !!!</b>   
-                    }
-                  </div>
-                }
-              </div>  
-            </InfoWindow>
-            :
-            <InfoWindow
-              onOpen={this.windowHasOpened}
-              marker={this.state.activeMarker}
-              visible={this.state.showingInfoWindow}>
+          {
+            this.state.requestState ? 
+            (this.state.isItemClicked ?
+              <InfoWindow 
+                onOpen={this.windowHasOpened}
+                marker={eval(this.props.marker).marker}
+                visible={this.props.showingInfoWindow}>
                 <div>
-                  <h3 className="infoWindowTitle">{this.state.selectedPlace.name}</h3>
+                  <h3 className="infoWindowTitle">{this.props.menuItemClicked.title}</h3>
                   {this.state.clickedMarkerInfo !== null &&
                     <div className="infoWindowStyle">
                       <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
@@ -199,9 +183,32 @@ export class MapContainer extends Component {
                       }
                     </div>
                   }
-                </div>
-            </InfoWindow>
-          } 
+                </div>  
+              </InfoWindow>
+              :
+              <InfoWindow
+                onOpen={this.windowHasOpened}
+                marker={this.state.activeMarker}
+                visible={this.state.showingInfoWindow}>
+                  <div>
+                    <h3 className="infoWindowTitle">{this.state.selectedPlace.name}</h3>
+                    {this.state.clickedMarkerInfo !== null &&
+                      <div className="infoWindowStyle">
+                        <p>Address: {this.state.clickedMarkerInfo.location.address}</p>
+                        { this.state.clickedMarkerInfo.bestPhoto ?
+                          <img src={this.state.clickedMarkerInfo.bestPhoto.prefix + '300x300' + this.state.clickedMarkerInfo.bestPhoto.suffix}
+                             alt={this.state.clickedMarkerInfo.name}/>
+                          : 
+                          <b>Oooops No Image founded !!!</b>   
+                        }
+                      </div>
+                    }
+                  </div>
+              </InfoWindow>
+            ) 
+            :
+            <p>Oooops Something went wrong !!!</p>
+          }
         </Map>
       </div>  
 
@@ -210,5 +217,5 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyDUbTRPYZCp2Af2RSRwRfFsL6iK1iHyRG0')
+  apiKey: ('IzaSyDUbTRPYZCp2Af2RSRwRfFsL6iK1iHyRG0')
 })(MapContainer)
