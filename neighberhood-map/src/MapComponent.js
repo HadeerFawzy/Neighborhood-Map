@@ -102,6 +102,8 @@ export class MapContainer extends Component {
           });
         }
       )
+      // catch errors
+      .catch(error => console.log(error) );
   })
 
   // will be called automatically in case of an authentication error.

@@ -41,7 +41,7 @@ class Menu extends Component {
             {locations.map((location, index) => (
               <li key={index}
                   id={index}
-                  tabIndex={index}
+                  tabIndex="0"
                   role="menuitem"
                   onClick={this.props.menuItemClicked.bind(null, location, index)}> 
                 {location.title} 
@@ -51,7 +51,7 @@ class Menu extends Component {
         </div>
           
         <div onClick={this.toggleMenu} className={(this.state.MenuVisibility ? "menuVisible menuToggleIcon" : "menuToggleIcon")}>
-          <img src={MenuIcon} alt="burger menu icon to toggle the menu"/>
+          <img src={MenuIcon} alt=""/>
         </div>       
       </div>  
     );
